@@ -7,4 +7,5 @@ export * from './components/scroll.component';
 export * from './core/bases/component.base';
 export * from './core/theme/theme.service';
 export * from './core/theme/theme.types';
+export * from './core/types/ribbon.types';
 export * from './core/utils/nullable';

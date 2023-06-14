@@ -8,18 +8,18 @@ class GridComponent extends Component {
         display: grid;
         padding: var(--space-md);
         gap: var(--space-md);
-        grid-template-columns: ${ this.props.columns };
+        grid-template-columns: ${ this.currentProps.columns };
       }
     
       @media (max-width: 1000px) {
         .grid-container {
-          grid-template-columns: ${ this.props.columnsmd || this.props.columns };
+          grid-template-columns: ${ this.currentProps.columnsmd || this.currentProps.columns };
         }
       }
     
       @media (max-width: 600px) {
         .grid-container {
-          grid-template-columns: ${ this.props.columnssm || this.props.columns };
+          grid-template-columns: ${ this.currentProps.columnssm || this.currentProps.columns };
         }
       }
     `;

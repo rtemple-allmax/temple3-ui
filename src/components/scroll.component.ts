@@ -21,7 +21,7 @@ class ScrollComponent extends Component {
         overflow-y: auto;
         overflow-x: hidden;
         height: auto;
-        max-height: calc(${ this.props.maxheight } - (var(--space-md) * 2));
+        max-height: calc(${ this.currentProps.maxheight } - (var(--space-md) * 2));
       }
       
       .scroll-container::-webkit-scrollbar {
@@ -50,7 +50,7 @@ class ScrollComponent extends Component {
   }
 
   afterRender() {
-    this.scroller = this.element?.querySelector('.scroll-container');
+    this.scroller = this.root?.querySelector('.scroll-container');
     this.scroller?.addEventListener('scroll', () => this.scrollHandler());
   }
 
@@ -61,7 +61,7 @@ class ScrollComponent extends Component {
   scrollHandler() {
     this.dispatchEvent(this.scrolled);
     if (this.scroller) {
-      if (this.scroller?.scrollTop + this.scroller?.clientHeight >= this.scroller?.scrollHeight) {
+      if (this.scroller.scrollTop + this.scroller.clientHeight >= this.scroller.scrollHeight) {
         this.dispatchEvent(this.reachedBottom);
       }
     }

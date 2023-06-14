@@ -1,6 +1,6 @@
 {
   "name": "temple3-ui",
-  "version": "0.0.9",
+  "version": "0.0.61",
   "description": "A collection of Web Components built in Typescript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
