@@ -1,21 +1,31 @@
 import { Component } from "../core/bases/component.base";
 
-class FlexComponent extends Component {
+interface Props {
+  height: string;
+  justifyContent: string,
+  alignItems: string;
+}
+
+class FlexComponent extends Component<Props, {}> {
   afterInit(): void {
-      this.template = '<slot></slot>';
-      this.styles = `
+    const { currentProps } = this;
+    if (currentProps) {
+      const templateString = '<slot></slot>';
+      const styleString = `
         :host {
-          height: ${ this.currentProps.height };
+          height: ${ currentProps.height || 'auto' };
         }
         slot {
           display: flex;
           height: 100%;
-          justify-content: ${ this.currentProps.justifycontent };
-          align-items: ${ this.currentProps.alignitems };
+          justify-content: ${ currentProps.justifyContent || 'flex-start' };
+          align-items: ${ currentProps.alignItems || 'flex-start' };
         }
       `;
+      this.setTemplate(templateString);
+      this.setStyle(styleString);
+    }
   }
 }
 
 export { FlexComponent };
-

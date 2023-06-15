@@ -17,6 +17,8 @@ interface Theme {
   '--dark-bg-color': string;
   '--transition': string;
   '--vh-1': string;
+  '--breakpoint-md': string;
+  '--breakpoint-sm': string;
 }
 
 const themeBase: Theme = {
@@ -36,7 +38,9 @@ const themeBase: Theme = {
   '--muted-fg-color': '#b7b1b1',
   '--dark-bg-color': '#acabac',
   '--transition': '.3s all ease-in-out',
-  '--vh-1': '1vh'
+  '--vh-1': '1vh',
+  '--breakpoint-md': '1000px',
+  '--breakpoint-sm': '600px'
 };
 
 interface ThemeArgs {
@@ -58,6 +62,8 @@ interface ThemeArgs {
   darkBgColor?: string;
   transition?: string;
   vh1?: string;
+  breakpointMd?: string;
+  breakpointSm?: string;
 }
 
 export { Theme, ThemeArgs, themeBase };

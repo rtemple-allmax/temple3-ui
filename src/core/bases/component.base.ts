@@ -1,38 +1,40 @@
 // base class for all components 
 
+import { hyphensToCamelCase } from '../utils/hyphens-to-camel-case';
 import { Nullable } from '../utils/nullable';
 
-class Component extends HTMLElement {
+class Component<T1 extends {}, T2 extends {}> extends HTMLElement {
   private element: Nullable<ShadowRoot>;
-  private props: any = {};
-  private state: any = {};
-  protected template: Nullable<string>;
-  protected styles: Nullable<string>;
-  protected classes = '';
+  private props: Nullable<T1>;
+  private state: Nullable<T2>;
+  private template: Nullable<string>;
+  private styles: Nullable<string>;
 
   protected get root(): Nullable<ShadowRoot> {
     return this.element;
   }
 
-  protected get currentProps(): any {
+  protected get currentProps(): Nullable<T1> {
     return this.props;
   }
 
-  protected get currentState(): any {
+  protected get currentState(): Nullable<T2> {
     return this.state;
   }
 
-  constructor(state: any = null) {
+  constructor(state: Nullable<T2> = null) {
     super();
     this.attachShadow({ mode: 'open' });
     this.element = this.shadowRoot;
-    if (state) {
-      this.state = state;
-    }
+    this.state = state;
   }
 
   private connectedCallback() {
-    this.props = { ...this.props, ...Object.fromEntries([ ...Array.from(this.attributes) ].map(prop => [ prop.localName, prop.value ])) };
+    this.props = {
+      ...(this.props || {}),
+      ...Object.fromEntries([ ...Array.from(this.attributes) ]
+      .map(prop => [ hyphensToCamelCase(prop.localName), prop.value ]))
+    } as T1;
     this.afterInit();
     this._render();
   }
@@ -43,11 +45,19 @@ class Component extends HTMLElement {
 
   protected afterInit() { }
   protected afterRender() { }
-  protected afterStateChange(state: any) { }
+  protected afterStateChange(state: T2) { }
   protected afterDestroy() { }
 
-  public setState(name: string, val: any) {
-    this.state = { ...this.state, [ name ]: val };
+  public setTemplate(template: string) {
+    this.template = template;
+  }
+
+  public setStyle(styles: string) {
+    this.styles = styles;
+  }
+
+  protected setState(name: string, val: any) {
+    this.state = { ...(this.state || {}), [ name ]: val } as T2;
     this.afterStateChange(this.state);
     this._render();
   }

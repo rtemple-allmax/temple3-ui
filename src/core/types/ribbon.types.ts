@@ -5,7 +5,7 @@ enum RibbonSectionTypes {
   Custom = 'custom'
 }
 
-interface RibbonData {
+interface RibbonConfig {
   tabs: RibbonTab[];
 }
 
@@ -28,4 +28,4 @@ interface RibbonControl {
   handler: VoidFunction;
 }
 
-export { RibbonControl, RibbonData, RibbonSection, RibbonSectionTypes, RibbonTab };
+export { RibbonControl, RibbonConfig, RibbonSection, RibbonSectionTypes, RibbonTab };

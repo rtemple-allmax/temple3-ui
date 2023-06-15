@@ -1,52 +1,62 @@
 import { Nullable } from "../core/utils/nullable";
 import { Component } from "../core/bases/component.base";
 
-class ScrollComponent extends Component {
+interface Props {
+  maxHeight: string;
+}
+
+class ScrollComponent extends Component<Props, {}> {
   scroller: Nullable<HTMLElement>;
 
   scrolled = new Event('scrolled', { bubbles: true, cancelable: false });
   reachedBottom = new Event('reachedBottom', { bubbles: true, cancelable: false });
   
   afterInit(): void {
-    this.styles = `
-      :host {
-        height: 100%;
-      }
-      .scroll-wrapper {
-        padding: var(--space-md);
-        height: 100%;
-      }
-    
-      .scroll-container {
-        overflow-y: auto;
-        overflow-x: hidden;
-        height: auto;
-        max-height: calc(${ this.currentProps.maxheight } - (var(--space-md) * 2));
-      }
-      
-      .scroll-container::-webkit-scrollbar {
-        width: 5px;
-        background: var(--scrollbar-base-color);
-        visibility: hidden;
-      }
-      
-      .scroll-container::-webkit-scrollbar-thumb {
-        background: var(--scrollbar-thumb-color);
-        border-radius: 4px;
-        visibility: hidden;
-      }
-    
-      .scroll-container:hover::-webkit-scrollbar, .scroll-container:hover::-webkit-scrollbar-thumb {
-        visibility: visible;
-      }
-    `;
-    this.template = `
-      <div class="scroll-wrapper">
-        <div class="scroll-container">
-          <slot></slot>
+    const { currentProps }  = this;
+    if (currentProps) {
+      const templateString = `
+        <div class="scroll-wrapper">
+          <div class="scroll-container">
+            <slot></slot>
+          </div>
         </div>
-      </div>
-    `;
+      `;
+      const styleString = `
+        :host {
+          height: 100%;
+        }
+        .scroll-wrapper {
+          padding: var(--space-md);
+          height: 100%;
+        }
+      
+        .scroll-container {
+          overflow-y: auto;
+          overflow-x: hidden;
+          height: auto;
+          max-height: calc(${ currentProps.maxHeight || 'none' } - (var(--space-md) * 2));
+        }
+        
+        .scroll-container::-webkit-scrollbar {
+          width: 5px;
+          background: var(--scrollbar-base-color);
+          visibility: hidden;
+        }
+        
+        .scroll-container::-webkit-scrollbar-thumb {
+          background: var(--scrollbar-thumb-color);
+          border-radius: 4px;
+          visibility: hidden;
+        }
+      
+        .scroll-container:hover::-webkit-scrollbar, .scroll-container:hover::-webkit-scrollbar-thumb {
+          visibility: visible;
+        }
+      `;
+      this.setTemplate(templateString);
+      this.setStyle(styleString);
+    }
+    
   }
 
   afterRender() {
