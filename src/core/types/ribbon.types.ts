@@ -6,7 +6,7 @@ enum RibbonSectionTypes {
 }
 
 interface RibbonConfig {
-  tabs: RibbonTab[];
+  tabs?: RibbonTab[];
 }
 
 interface RibbonTab {

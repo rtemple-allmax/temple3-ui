@@ -22,10 +22,11 @@ class Component<T1 extends {}, T2 extends {}> extends HTMLElement {
     return this.state;
   }
 
-  constructor(state: Nullable<T2> = null) {
+  constructor(props: Nullable<T1>, state: Nullable<T2>) {
     super();
     this.attachShadow({ mode: 'open' });
     this.element = this.shadowRoot;
+    this.props = props;
     this.state = state;
   }
 
