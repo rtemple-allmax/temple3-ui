@@ -1,4 +1,3 @@
-import { RibbonConfig } from "../core/types/ribbon.types";
 import { Component } from "../core/bases/component.base";
 
 interface State {
@@ -122,10 +121,6 @@ class FrameComponent extends Component<{}, State> {
     if (closeBtn) {
       closeBtn.addEventListener('click', () => this.closeDrawer());
     }
-  }
-
-  public configure(config: RibbonConfig): void {
-    this.setState('config', config);
   }
   
   private generateTemplate(state: State): string {

@@ -23,7 +23,6 @@ class FlexComponent extends Component<Props, {}> {
     this.setTemplate(templateString);
     this.setStyle(styleString);
   }
-  
 }
 
 export { FlexComponent };

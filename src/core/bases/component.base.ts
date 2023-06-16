@@ -49,7 +49,6 @@ class Component<T1 extends {}, T2 extends {}> extends HTMLElement {
   protected afterDestroy() { }
 
   public setTemplate(template: string) {
-    debugger;
     this.template = template;
   }
 
@@ -64,7 +63,6 @@ class Component<T1 extends {}, T2 extends {}> extends HTMLElement {
   }
   
   private async _render() {
-    debugger;
     if (!this.template || !this.element) { return; }
     if (this.styles) {
       this.element.innerHTML = `<style>${ this.styles }</style>${ this.template }`
