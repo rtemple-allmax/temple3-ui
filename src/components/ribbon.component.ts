@@ -6,7 +6,7 @@ interface State {
 }
 
 class RibbonComponent extends Component<{}, State> {
-  protected afterInit(): void {
+  protected afterInit(props: {}, state: State): void {
     this.setStyle(`
       .ribbon-section, .tab-header, .tab-content {
         position: relative;
@@ -109,8 +109,8 @@ class RibbonComponent extends Component<{}, State> {
     `);
   }
 
-  protected afterStateChange(state: any): void {
-    const templateString = this.generateTemplate(state?.data);
+  protected afterStateChange (props: {}, state: State): void {
+    const templateString = this.generateTemplate(state.config);
     this.setTemplate(templateString);
   }
 
@@ -123,7 +123,7 @@ class RibbonComponent extends Component<{}, State> {
     }
   }
 
-  public configure(config: RibbonConfig): void {
+  public configure(config: RibbonConfig) {
     this.setState('config', config);
   }
   
@@ -200,7 +200,6 @@ class RibbonComponent extends Component<{}, State> {
       }
       this.setState('config', altered);
     }
-    
   }
 }
 

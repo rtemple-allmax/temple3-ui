@@ -35,7 +35,7 @@ class Component<T1 extends {}, T2 extends {}> extends HTMLElement {
       ...Object.fromEntries([ ...Array.from(this.attributes) ]
       .map(prop => [ hyphensToCamelCase(prop.localName), prop.value ]))
     } as T1;
-    this.afterInit();
+    this.afterInit(this.props, this.state);
     this._render();
   }
 
@@ -43,12 +43,13 @@ class Component<T1 extends {}, T2 extends {}> extends HTMLElement {
     this.afterDestroy();
   }
 
-  protected afterInit() { }
+  protected afterInit(props: T1, state: Nullable<T2>) { }
   protected afterRender() { }
-  protected afterStateChange(state: T2) { }
+  protected afterStateChange(props: Nullable<T1>, state: T2) { }
   protected afterDestroy() { }
 
   public setTemplate(template: string) {
+    debugger;
     this.template = template;
   }
 
@@ -56,13 +57,14 @@ class Component<T1 extends {}, T2 extends {}> extends HTMLElement {
     this.styles = styles;
   }
 
-  protected setState(name: string, val: any) {
+  public setState(name: string, val: any) {
     this.state = { ...(this.state || {}), [ name ]: val } as T2;
-    this.afterStateChange(this.state);
+    this.afterStateChange(this.props, this.state);
     this._render();
   }
   
   private async _render() {
+    debugger;
     if (!this.template || !this.element) { return; }
     if (this.styles) {
       this.element.innerHTML = `<style>${ this.styles }</style>${ this.template }`

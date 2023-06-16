@@ -7,25 +7,23 @@ interface Props {
 }
 
 class FlexComponent extends Component<Props, {}> {
-  afterInit(): void {
-    const { currentProps } = this;
-    if (currentProps) {
-      const templateString = '<slot></slot>';
-      const styleString = `
-        :host {
-          height: ${ currentProps.height || 'auto' };
-        }
-        slot {
-          display: flex;
-          height: 100%;
-          justify-content: ${ currentProps.justifyContent || 'flex-start' };
-          align-items: ${ currentProps.alignItems || 'flex-start' };
-        }
-      `;
-      this.setTemplate(templateString);
-      this.setStyle(styleString);
-    }
+  afterInit(props: Props, state: {}): void {
+    const templateString = '<slot></slot>';
+    const styleString = `
+      :host {
+        height: ${ props.height || 'auto' };
+      }
+      slot {
+        display: flex;
+        height: 100%;
+        justify-content: ${ props.justifyContent || 'flex-start' };
+        align-items: ${ props.alignItems || 'flex-start' };
+      }
+    `;
+    this.setTemplate(templateString);
+    this.setStyle(styleString);
   }
+  
 }
 
 export { FlexComponent };
