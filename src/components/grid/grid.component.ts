@@ -12,4 +12,6 @@ class GridComponent extends Component<Props, {}> {
   } 
 }
 
+customElements.define('t3-grid', GridComponent);
+
 export { GridComponent };

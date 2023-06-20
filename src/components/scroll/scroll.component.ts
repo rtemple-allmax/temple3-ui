@@ -37,4 +37,6 @@ class ScrollComponent extends Component<Props, {}> {
   }
 }
 
+customElements.define('t3-scroll', ScrollComponent);
+
 export { ScrollComponent };

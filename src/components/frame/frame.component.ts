@@ -36,4 +36,6 @@ class FrameComponent extends Component<{}, State> {
   }
 }
 
+customElements.define('t3-frame', FrameComponent);
+
 export { FrameComponent };

@@ -12,4 +12,6 @@ class FlexComponent extends Component<Props, {}> {
   }
 }
 
+customElements.define('t3-flex', FlexComponent);
+
 export { FlexComponent };

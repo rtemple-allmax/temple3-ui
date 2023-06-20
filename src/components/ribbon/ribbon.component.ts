@@ -38,4 +38,6 @@ class RibbonComponent extends Component<{}, State> {
   }
 }
 
+customElements.define('t3-ribbon', RibbonComponent);
+
 export { RibbonComponent };

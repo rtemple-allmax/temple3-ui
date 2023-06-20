@@ -14,11 +14,11 @@ class Component<T1 extends {}, T2 extends {}> extends HTMLElement {
     return this.element;
   }
 
-  protected get currentProps(): Nullable<T1> {
+  public get currentProps(): Nullable<T1> {
     return this.props;
   }
 
-  protected get currentState(): Nullable<T2> {
+  public get currentState(): Nullable<T2> {
     return this.state;
   }
 
@@ -62,9 +62,18 @@ class Component<T1 extends {}, T2 extends {}> extends HTMLElement {
     this.afterStateChange(this.props, this.state);
     this._render();
   }
+
+  protected replaceState(state: T2): void {
+    this.state = state;
+    this.afterStateChange(this.props, this.state);
+    this._render();
+  }
   
   private async _render() {
-    if (!this.template || !this.element) { return; }
+    if (this.template === null ||
+      this.template === undefined ||
+      this.element === null ||
+      this.element === undefined) { return; }
     if (this.styles) {
       this.element.innerHTML = `<style>${ this.styles }</style>${ this.template }`
     } else {
