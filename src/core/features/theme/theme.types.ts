@@ -12,6 +12,7 @@ interface Theme {
   '--color': string;
   '--app-color': string;
   '--app-color-text-color': string;
+  '--light-bg-color': string;
   '--muted-bg-color': string;
   '--muted-fg-color': string;
   '--dark-bg-color': string;
@@ -34,6 +35,7 @@ const themeBase: Theme = {
   '--color': 'black',
   '--app-color': 'white',
   '--app-color-text-color': 'black',
+  '--light-bg-color': 'white',
   '--muted-bg-color': '#eee8e8',
   '--muted-fg-color': '#b7b1b1',
   '--dark-bg-color': '#acabac',
@@ -57,6 +59,7 @@ interface ThemeArgs {
   color?: string;
   appColor?: string;
   appColorTextColor?: string;
+  lightBgColor?: string;
   mutedBgColor?: string;
   mutedFgColor?: string;
   darkBgColor?: string;
