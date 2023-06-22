@@ -1,3 +1,9 @@
+enum SortingState {
+  None,
+  Ascending,
+  Descending
+}
+
 enum ColumnTypes {
   none,
   text,
@@ -11,8 +17,11 @@ enum ColumnTypes {
 
 
 interface Column {
-  name: string;
+  label: string;
+  dataField: string;
   type: ColumnTypes;
+  sortIndex: number;
+  sortingState: SortingState;
 }
 
 interface TableConfig {
@@ -23,5 +32,6 @@ interface TableConfig {
 export {
   Column,
   ColumnTypes,
+  SortingState,
   TableConfig
 }
