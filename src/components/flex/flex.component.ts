@@ -1,5 +1,5 @@
-import { Component } from "../../core/bases/component.base";
-import { defaultProps, generateStyle, generateTemplate, Props } from './flex.meta';
+import { Component } from "../../core/bases/component.base.js";
+import { defaultProps, generateStyle, generateTemplate, Props } from './flex.meta.js';
 
 
 class FlexComponent extends Component<Props, {}> {
@@ -12,6 +12,6 @@ class FlexComponent extends Component<Props, {}> {
   }
 }
 
-customElements.define('t3-flex', FlexComponent);
+customElements.define('nxt-flex', FlexComponent);
 
 export { FlexComponent };

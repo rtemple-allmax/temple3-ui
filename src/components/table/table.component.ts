@@ -1,9 +1,9 @@
-import { sortArrayByStringValueImmutable } from "../../core/utils/array-utils";
-import { Component } from "../../core/bases/component.base";
-import { Column, SortingState, TableConfig } from "../../core/types/table.types";
-import { Nullable } from "../../core/utils/nullable";
+import { sortArrayByStringValueImmutable } from "../../core/utils/array-utils.js";
+import { Component } from "../../core/bases/component.base.js";
+import { SortingState, TableConfig } from "../../core/types/table.types.js";
+import { Nullable } from "../../core/utils/nullable.js";
 
-import { defaultProps, defaultState, generateStyles, generateTemplate, Props, State } from './table.meta';
+import { defaultProps, defaultState, generateStyles, generateTemplate, Props, State } from './table.meta.js';
 
 class TableComponent extends Component<Props, State> {
   constructor() {
@@ -67,6 +67,6 @@ class TableComponent extends Component<Props, State> {
   }
 }
 
-customElements.define('t3-table', TableComponent);
+customElements.define('nxt-table', TableComponent);
 
 export { TableComponent };

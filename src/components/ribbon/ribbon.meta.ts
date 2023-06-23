@@ -1,4 +1,4 @@
-import { RibbonConfig, RibbonSection, RibbonTab } from "../../core/types/ribbon.types";
+import { RibbonConfig, RibbonSection, RibbonTab } from "../../core/types/ribbon.types.js";
 
 interface State {
   config: RibbonConfig;

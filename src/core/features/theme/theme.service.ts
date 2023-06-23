@@ -1,4 +1,4 @@
-import { Theme, ThemeArgs, themeBase } from './theme.types';
+import { Theme, ThemeArgs, themeBase } from './theme.types.js';
 
 class ThemeService {
   public customize(args: ThemeArgs, addedProps: Array<{ customPropFromattedName: string, value: string }> = []) {

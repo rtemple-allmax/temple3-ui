@@ -1,5 +1,5 @@
-import { Component } from "../../core/bases/component.base";
-import { defaultProps, generateStyle, generateTemplate, Props } from './grid.meta';
+import { Component } from "../../core/bases/component.base.js";
+import { defaultProps, generateStyle, generateTemplate, Props } from './grid.meta.js';
 
 class GridComponent extends Component<Props, {}> {
   constructor() {
@@ -12,6 +12,6 @@ class GridComponent extends Component<Props, {}> {
   } 
 }
 
-customElements.define('t3-grid', GridComponent);
+customElements.define('nxt-grid', GridComponent);
 
 export { GridComponent };

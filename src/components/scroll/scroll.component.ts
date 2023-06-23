@@ -1,6 +1,6 @@
-import { Nullable } from "../../core/utils/nullable";
-import { Component } from "../../core/bases/component.base";
-import { defaultProps, generateStyle, generateTemplate, Props } from './scroll.meta';
+import { Nullable } from "../../core/utils/nullable.js";
+import { Component } from "../../core/bases/component.base.js";
+import { defaultProps, generateStyle, generateTemplate, Props } from './scroll.meta.js';
 
 
 class ScrollComponent extends Component<Props, {}> {
@@ -37,6 +37,6 @@ class ScrollComponent extends Component<Props, {}> {
   }
 }
 
-customElements.define('t3-scroll', ScrollComponent);
+customElements.define('nxt-scroll', ScrollComponent);
 
 export { ScrollComponent };

@@ -1,5 +1,5 @@
-import { Component } from "../../core/bases/component.base";
-import { State, defaultState, generateStyle, generateTemplate } from './frame.meta';
+import { Component } from "../../core/bases/component.base.js";
+import { State, defaultState, generateStyle, generateTemplate } from './frame.meta.js';
 
 
 class FrameComponent extends Component<{}, State> {
@@ -36,6 +36,6 @@ class FrameComponent extends Component<{}, State> {
   }
 }
 
-customElements.define('t3-frame', FrameComponent);
+customElements.define('nxt-frame', FrameComponent);
 
 export { FrameComponent };

@@ -1,16 +1,17 @@
-import { Column, ColumnTypes, SortingState, TableConfig,  } from '../../core/types/table.types';
-import { Nullable } from "../../core/utils/nullable";
+import { Column, ColumnTypes, SortingState, TableConfig,  } from '../../core/types/table.types.js';
+import { Nullable } from "../../core/utils/nullable.js";
 
 
 interface Props {
- initial: boolean 
+ initial: boolean,
+ dataConfig: string;
 }
 
 interface State {
   config: TableConfig
 }
 
-const defaultProps: Props = { initial: false };
+const defaultProps: Props = { initial: false, dataConfig: '' };
 const defaultState: State = { config: { data: [], columns: [] } };
 
 const generateStyles = () => {
@@ -88,7 +89,7 @@ const generateTemplate = (props: Nullable<Props>, state: Nullable<State>): strin
         </tr>
       </thead>
       <tbody id="data-container">
-        ${ generateRows(state.config)}
+        ${ generateRows(state.config) }
       </tbody>
     </table>
   `;
@@ -135,7 +136,7 @@ const getAlignment = (propName: string, config: TableConfig): string => {
       case ColumnTypes.boolean:
       case ColumnTypes.control:
       case ColumnTypes.selection:
-        className = 'center-aligned'
+        className = 'center-aligned';
     }
   }
   return className;

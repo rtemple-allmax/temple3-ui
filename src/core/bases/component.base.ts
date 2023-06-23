@@ -1,7 +1,7 @@
 // base class for all components 
 
-import { hyphensToCamelCase } from '../utils/hyphens-to-camel-case';
-import { Nullable } from '../utils/nullable';
+import { hyphensToCamelCase } from '../utils/hyphens-to-camel-case.js';
+import { Nullable } from '../utils/nullable.js';
 
 class Component<T1 extends {}, T2 extends {}> extends HTMLElement {
   private element: Nullable<ShadowRoot>;
@@ -31,11 +31,26 @@ class Component<T1 extends {}, T2 extends {}> extends HTMLElement {
   }
 
   private connectedCallback() {
+    const attributes: any[] = [];
+    const attrs = [ ...Array.from(this.attributes) ];
+    attrs.forEach(x => {
+      let record:any = { }
+      if (x.localName.startsWith('data-')) {
+        record.name = x.localName.substring(5);
+        record.value = JSON.parse(x.value);
+      } else {
+        record.name = x.localName;
+        record.value = x.value;
+      }
+      attributes.push(record);
+    })
+    
+    
     this.props = {
       ...(this.props || {}),
-      ...Object.fromEntries([ ...Array.from(this.attributes) ]
-      .map(prop => [ hyphensToCamelCase(prop.localName), prop.value ]))
+      ...Object.fromEntries(attributes.map(prop => [ hyphensToCamelCase(prop.name), prop.value ]))
     } as T1;
+
     this.afterInit(this.props, this.state);
     this._render();
   }

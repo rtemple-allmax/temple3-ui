@@ -1,6 +1,6 @@
-import { RibbonConfig } from "../../core/types/ribbon.types";
-import { Component } from "../../core/bases/component.base";
-import { defaultState, generateStyle, generateTemplate, State } from './ribbon.meta';
+import { RibbonConfig } from "../../core/types/ribbon.types.js";
+import { Component } from "../../core/bases/component.base.js";
+import { defaultState, generateStyle, generateTemplate, State } from './ribbon.meta.js';
 
 class RibbonComponent extends Component<{}, State> {
   constructor() {
@@ -38,6 +38,6 @@ class RibbonComponent extends Component<{}, State> {
   }
 }
 
-customElements.define('t3-ribbon', RibbonComponent);
+customElements.define('nxt-ribbon', RibbonComponent);
 
 export { RibbonComponent };

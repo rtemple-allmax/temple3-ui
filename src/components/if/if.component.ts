@@ -1,6 +1,6 @@
-import { Nullable } from "../../core/utils/nullable";
-import { Component } from "../../core/bases/component.base";
-import { defaultState, generateTemplate, State } from './if.meta';
+import { Nullable } from "../../core/utils/nullable.js";
+import { Component } from "../../core/bases/component.base.js";
+import { defaultState, generateTemplate, State } from './if.meta.js';
 
 class IfComponent extends Component<{}, State> {
   constructor() {
@@ -12,7 +12,7 @@ class IfComponent extends Component<{}, State> {
   }
 }
 
-customElements.define('t3-if', IfComponent);
+customElements.define('nxt-if', IfComponent);
 
 export { IfComponent };
 
