@@ -20,6 +20,8 @@ interface Theme {
   '--vh-1': string;
   '--breakpoint-md': string;
   '--breakpoint-sm': string;
+  '--table-header-bg-color': string;
+  '--table-header-fg-color': string;
 }
 
 const themeBase: Theme = {
@@ -42,7 +44,9 @@ const themeBase: Theme = {
   '--transition': '.3s all ease-in-out',
   '--vh-1': '1vh',
   '--breakpoint-md': '1000px',
-  '--breakpoint-sm': '600px'
+  '--breakpoint-sm': '600px',
+  '--table-header-bg-color': 'black',
+  '--table-header-fg-color': 'white'
 };
 
 interface ThemeArgs {
@@ -67,6 +71,8 @@ interface ThemeArgs {
   vh1?: string;
   breakpointMd?: string;
   breakpointSm?: string;
+  tableHeaderBgColor?: string;
+  tableHeaderFgColor?: string;
 }
 
 export { Theme, ThemeArgs, themeBase };

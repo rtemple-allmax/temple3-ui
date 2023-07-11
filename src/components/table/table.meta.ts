@@ -8,14 +8,46 @@ interface Props {
 }
 
 interface State {
-  config: TableConfig
+  config: TableConfig,
+  showFilter: boolean,
+  filterExpr: string;
+  filterValue: string;
 }
 
 const defaultProps: Props = { initial: false, dataConfig: '' };
-const defaultState: State = { config: { data: [], columns: [] } };
+const defaultState: State = { config: { data: [], columns: [], name: '' }, showFilter: false, filterExpr: 'name', filterValue: '' };
 
 const generateStyles = () => {
   return `
+    .table-header {
+      background-color: var(--table-header-bg-color);
+      color: var(--table-header-fg-color);
+      padding: 0 var(--space-lg);
+    }
+
+    .filter-row {
+      height: 0;
+      overflow: hidden;
+      border-left: 1px solid black;
+      border-right: 1px solid black;
+      background-color: var(--muted-bg-color);
+      animation: close .1s ease-in-out forwards;
+    }
+
+    .filter-row.shown {
+      animation: open .1s ease-in-out forwards;
+      padding: var(--space-md);
+    }
+
+    .filter-row input {
+      width: calc(100% - (var(--space-md) * 2));
+      padding: var(--space-md);
+    }
+
+    #filter-btn {
+
+    }
+
     .table {
       width: 100%;
       background-color: white;
@@ -76,12 +108,39 @@ const generateStyles = () => {
     .cell.right-aligned {
       text-align: right;
     }
+
+    @keyframes open {
+      from {
+        height: 0;
+      }
+      to {
+        height: 35px;
+      }
+    }
+
+    @keyframes close {
+      from {
+        height: 35px;
+      }
+      to {
+        height: 0;
+      }
+    }
   `;
 };
 
 const generateTemplate = (props: Nullable<Props>, state: Nullable<State>): string => {
   if (!state?.config) { return ''; }
   return `
+    <div class="table-header">
+      <nxt-flex justify-content="space-between" align-items="center">
+        <p>${ state.config.name }</p>
+        <button id="filter-btn">T</button>
+      </nxt-flex>
+    </div>
+    <div class="filter-row ${ state.showFilter ? 'shown' : ''}">
+      <input id="filter-input" type="text" placeholder="Filter..."/>
+    </div>
     <table class="table striped">
       <thead>
         <tr class="headers">
@@ -89,7 +148,7 @@ const generateTemplate = (props: Nullable<Props>, state: Nullable<State>): strin
         </tr>
       </thead>
       <tbody id="data-container">
-        ${ generateRows(state.config) }
+        ${ generateRows(state) }
       </tbody>
     </table>
   `;
@@ -105,12 +164,17 @@ const generateHeader = (config: TableConfig): string => {
   return template;
 };
 
-const generateRows = (config: TableConfig): string => {
-  const { data } = config;
-  if (!data || data.length < 1) { return ''; }
+const generateRows = (state: State): string => {
+  if (!state?.config?.data || state.config.data.length < 1) { return ''; }
   let template = '';
-  for (const record of data) {
-    template += `<tr>${ generateRow(record, config)}</tr>`
+  let filtered: any[] = [];
+  if (state.filterExpr && state.filterValue) {
+    filtered = state.config.data.filter(x => (x[state.filterExpr] as string).includes(state.filterValue));
+  } else {
+    filtered = state.config.data;
+  }
+  for (const record of filtered) {
+    template += `<tr>${ generateRow(record, state.config)}</tr>`
   }
   return template;
 };

@@ -22,9 +22,11 @@ interface Column {
   type: ColumnTypes;
   sortIndex: number;
   sortingState: SortingState;
+  width?: string;
 }
 
 interface TableConfig {
+  name: string;
   data: any[];
   columns: Column[];
 }

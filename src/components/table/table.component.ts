@@ -27,6 +27,16 @@ class TableComponent extends Component<Props, State> {
           }
         }
       }
+      const filterBtn = this.root.getElementById('filter-btn');
+      if(filterBtn) {
+        filterBtn.addEventListener('click', () => this.showFilterRow());
+      }
+
+      const filterInput = this.root.getElementById('filter-input');
+      console.log('filter', filterInput)
+      if (filterInput) {
+        filterInput.addEventListener('input', (e: Event) => this.filterInputChanged(e));
+      }
     }
   }
 
@@ -64,6 +74,17 @@ class TableComponent extends Component<Props, State> {
         this.setState('config', altered);
       }
     }
+  }
+
+  public showFilterRow(): void {
+    if (this.currentState) {
+      this.setState('showFilter', !this.currentState.showFilter);
+    }
+  }
+
+  public filterInputChanged(e: Event): void {
+    const val = (e.target as HTMLInputElement).value;
+    this.setState('filterValue', val);
   }
 }
 
