@@ -27,6 +27,9 @@ interface Column {
 
 interface TableConfig {
   name: string;
+  width?: string;
+  maxHeight?: string;
+  maxHeightSm?: string;
   data: any[];
   columns: Column[];
 }
