@@ -60,7 +60,7 @@ class Component<T1 extends {}, T2 extends {}> extends HTMLElement {
   }
 
   protected afterInit(props: T1, state: Nullable<T2>) { }
-  protected afterRender() { }
+  protected afterRender(props: Nullable<T1>, state: Nullable<T2>) { }
   protected afterStateChange(props: Nullable<T1>, state: T2) { }
   protected afterDestroy() { }
 
@@ -83,6 +83,10 @@ class Component<T1 extends {}, T2 extends {}> extends HTMLElement {
     this.afterStateChange(this.props, this.state);
     this._render();
   }
+
+  protected render_FORCE() {
+    this._render();
+  }
   
   private async _render() {
     if (this.template === null ||
@@ -94,7 +98,7 @@ class Component<T1 extends {}, T2 extends {}> extends HTMLElement {
     } else {
       this.element.innerHTML = this.template;
     }
-    this.afterRender();
+    this.afterRender(this.props, this.state);
   }
 }
 

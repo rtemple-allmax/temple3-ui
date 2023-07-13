@@ -8,14 +8,24 @@ interface Props {
 }
 
 interface State {
-  config: TableConfig,
-  showFilter: boolean,
-  filterExpr: string;
-  filterValue: string;
+  config: TableConfig
 }
 
 const defaultProps: Props = { initial: false, dataConfig: '' };
-const defaultState: State = { config: { data: [], columns: [], name: '' }, showFilter: false, filterExpr: 'name', filterValue: '' };
+const defaultState: State = {
+  config: {
+    data: [],
+    columns: [],
+    name: '',
+    showBorders: true,
+    alternation: true,
+    showFilter: false,
+    filterExpr: 'name',
+    filterValue: '',
+    mediumSize: 1000,
+    smallSize: 620
+  }
+};
 
 const generateStyles = () => {
   return `
@@ -138,7 +148,7 @@ const generateTemplate = (props: Nullable<Props>, state: Nullable<State>): strin
         <button id="filter-btn">T</button>
       </nxt-flex>
     </div>
-    <div class="filter-row ${ state.showFilter ? 'shown' : ''}">
+    <div class="filter-row ${ state.config.showFilter ? 'shown' : ''}">
       <input id="filter-input" type="text" placeholder="Filter..."/>
     </div>
     <table class="table striped">
@@ -168,8 +178,8 @@ const generateRows = (state: State): string => {
   if (!state?.config?.data || state.config.data.length < 1) { return ''; }
   let template = '';
   let filtered: any[] = [];
-  if (state.filterExpr && state.filterValue) {
-    filtered = state.config.data.filter(x => (x[state.filterExpr] as string).includes(state.filterValue));
+  if (state.config.filterExpr && state.config.filterValue) {
+    filtered = state.config.data.filter(x => (x[state.config.filterExpr] as string).includes(state.config.filterValue));
   } else {
     filtered = state.config.data;
   }

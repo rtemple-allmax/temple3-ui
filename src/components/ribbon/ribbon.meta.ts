@@ -5,7 +5,7 @@ interface State {
 }
 
 const defaultState: State = {
-  config: { }
+  config: { smallSize: 600 }
 };
 
 const generateTemplate = (state: State): string => {
@@ -73,7 +73,7 @@ const generateControls = (section: RibbonSection): string => {
   return template;
 }
 
-const generateStyle = (): string => {
+const generateStyle = (config: RibbonConfig): string => {
   return `
     .ribbon-section, .tab-header, .tab-content {
       position: relative;
@@ -168,7 +168,7 @@ const generateStyle = (): string => {
       background-color: var(--muted-fg-color);
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: ${ config.smallSize || 600 }px) {
       .tab-header, .tab-content {
         display: none;
       }

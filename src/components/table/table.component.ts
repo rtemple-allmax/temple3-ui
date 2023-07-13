@@ -78,7 +78,7 @@ class TableComponent extends Component<Props, State> {
 
   public showFilterRow(): void {
     if (this.currentState) {
-      this.setState('showFilter', !this.currentState.showFilter);
+      this.setState('showFilter', !this.currentState.config.showFilter);
     }
   }
 

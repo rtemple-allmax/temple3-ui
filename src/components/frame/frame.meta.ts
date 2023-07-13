@@ -1,8 +1,9 @@
 interface State {
-  drawerOpen: boolean
+  drawerOpen: boolean;
+  smallSize: number;
 }
 
-const defaultState: State = { drawerOpen: false };
+const defaultState: State = { drawerOpen: false, smallSize: 520 };
 
 const generateTemplate = (state: State): string => {
   return `
@@ -30,7 +31,7 @@ const generateTemplate = (state: State): string => {
   `;
 }
 
-const generateStyle = (): string => {
+const generateStyle = (state: State): string => {
   return `
     :host {
       --header-height: 2rem;
@@ -54,8 +55,8 @@ const generateStyle = (): string => {
       display: none;
     }
 
-    @media (max-width: 600px) {
-      main {
+    @media (max-width: ${ state.smallSize || 600 }px) {
+      main { 
         height: calc(100vh - var(--header-height));
       }
       footer {

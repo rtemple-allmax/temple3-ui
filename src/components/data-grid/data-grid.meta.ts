@@ -1,28 +1,38 @@
-import { TableConfig } from "../../core/types/table.types";
+import { Column, TableConfig } from "../../core/types/table.types";
 import { Nullable } from "../../core/utils/nullable";
 
 interface Props {
-  dataConfig: string;
+  initial: boolean;
 }
 
 interface State {
   config: TableConfig,
-  showFilter: boolean,
-  filterExpr: string;
-  filterValue: string;
 }
 
-const defaultProps: Props = { dataConfig: '' };
-const defaultState: State = { config: { data: [], columns: [], name: '' }, showFilter: false, filterExpr: 'name', filterValue: '' };
+const defaultProps: Props = { initial: true };
+const defaultState: State = {
+  config: {
+    data: [],
+    columns: [],
+    name: '',
+    showBorders: true,
+    alternation: true,
+    showFilter: false,
+    filterExpr: 'name',
+    filterValue: '',
+    mediumSize: 1000,
+    smallSize: 620
+  }
+};
 
-const generateStyles = (props: Nullable<Props>, state: Nullable<State>): string => {
+const generateStyles = (state: Nullable<State>): string => {
   if (state?.config?.columns) {
     return `
     .wrapper {
       margin: 0 auto;
-      width: ${ state.config.width || '100%' };
       background-color: white;
       overflow: auto;
+      width: ${ state.config.width || '100%' };
       max-height: ${ state.config.maxHeight || 'auto' }
     }
 
@@ -44,7 +54,8 @@ const generateStyles = (props: Nullable<Props>, state: Nullable<State>): string 
 
     .row {
       display: grid;
-      grid-template-columns: ${ getColumns(state.config) };
+      grid-template-columns: ${ cssColumns(state.config) };
+      background-color: white;
     }
 
     .row.header {
@@ -54,30 +65,54 @@ const generateStyles = (props: Nullable<Props>, state: Nullable<State>): string 
       background-color: white;
     }
 
+    ${ state.config.alternation ? '.row:nth-child(even), .row:nth-child(even) input  { background-color: var(--muted-bg-color); }' : '' }
+
     .cell {
-      border: 1px solid #bbb;
-      border-collapse: collapse;
       padding: 4px;
     }
 
-    @media (max-width: 600px) {
+    .editor {
+      font-family: var(--font-family);
+      font-size: 1rem;
+      outline: 0;
+    }
+
+    .bordered {
+      border: 1px solid #bbb;
+      border-collapse: collapse;
+    }
+
+    input.editor:not(.bordered) {
+      border: none;
+    }
+
+    .data-wrapper {
+      display: block;
+    }
+
+    @media (max-width: ${ state.config.mediumSize || 1000 }px) {
       .wrapper {
         background-color: transparent;
-        max-height: ${ state.config.maxHeightSm || 'auto' }
+        max-height: ${ state.config.maxHeightMd || 'auto' }
       }
 
       .row {
-        grid-template-columns: 1fr;
-        margin: 1rem 0;
-        border: 1px solid #bbb;
+        grid-template-columns: repeat(2, 1fr);
+        margin: .5rem 0;
         box-shadow: var(--shadow);
       }
 
       .row.header {
-        grid-template-columns: repeat(${ state.config.columns.length }, 1fr);
+        grid-template-columns: repeat(${ state.config.columns.filter(x => x.visible()).length }, 1fr);
         margin: 0;
         border-radius: 5px;
         box-shadow: none;
+      }
+
+      .data-wrapper {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: var(--space-md);
       }
 
       .cell {
@@ -93,6 +128,26 @@ const generateStyles = (props: Nullable<Props>, state: Nullable<State>): string 
       .cell.header:first-of-type {
         border-left: 1px solid #bbb;
       }
+
+      .row:nth-child(even), .row:nth-child(even) input { background-color: white; }
+    }
+
+    @media (max-width: ${ state.config.smallSize || 620 }px) {
+      .wrapper {
+        background-color: transparent;
+        max-height: ${ state.config.maxHeightSm || 'auto' }
+      }
+      .row {
+        grid-template-columns: 1fr;
+      }
+
+      .data-wrapper {
+        display: block;
+      }
+
+      .row.header {
+        grid-template-columns: repeat(${ state.config.columns.filter(x => x.visible()).length }, 1fr);
+      }
     }
   `;
   } else {
@@ -100,7 +155,17 @@ const generateStyles = (props: Nullable<Props>, state: Nullable<State>): string 
   }
 }
 
-const generateTemplate = (props: Nullable<Props>, state: Nullable<State>): string => {
+const cssColumns = (config: TableConfig): string => {
+  const cols: string[] = [];
+  config.columns.forEach(c => {
+    if(c.visible()) {
+      cols.push(c.width ? c.width : '1fr')
+    }
+  })
+  return cols.join(' ');
+}
+
+const generateTemplate = (state: Nullable<State>): string => {
   if (state?.config) {
     return `
     <div class="wrapper">
@@ -113,21 +178,13 @@ const generateTemplate = (props: Nullable<Props>, state: Nullable<State>): strin
   }
 }
 
-const getColumns = (config: TableConfig): string => {
-  let result = '';
-  config.columns.forEach(c => {
-    result += c.width ? c.width : '1fr'
-    result += ' '
-  })
-  return result;
-}
-
 const headerRow = (config: TableConfig): string => {
   const headers: string[] = [];
 
   config.columns.forEach(c => {
-    const markup = `<span class="cell header">${ c.label }</span>`
-    headers.push(markup);
+    if (c.visible()) {
+      headers.push(header(c));
+    }
   })
 
   return `
@@ -137,20 +194,79 @@ const headerRow = (config: TableConfig): string => {
   `;
 }
 
+const header = (col: Column): string => {
+  return `<span class="cell header">${ col.label() }</span>`
+}
+
 const dataRows = (config: TableConfig): string => {
   const rows: string[] = [];
-
-  config.data.forEach(record => {
+  const { data, columns } = config;
+  data.forEach(record => {
     let cells: string[] = [];
     for (const key in record) {
-      const foundCol = config.columns.find(col => col.dataField === key);
+      const foundCol = columns.find(col => col.dataField === key);
       if (foundCol) {
-        cells.push(`<span class="cell data">${ record[key] }</span>`)
+        cells.push(cell(foundCol, config, record, key));
       }
     }
-    rows.push(`<div class="row data">${ cells.join('') }</div>`)
+    rows.push(`<div class="row data ${ config.showBorders ? 'bordered': ''}">${ cells.join('') }</div>`)
   })
-  return `${ rows.join('') }`;
+  return `<div class="data-wrapper">${ rows.join('') }</div>`;
+}
+
+const cell = (
+  col: Column,
+  config: TableConfig,
+  record: any,
+  key: string | number
+): string => {
+  let result = '';
+  if (col.visible()) {
+    if (col.editable) {
+      result = editor(config, col, record, key);
+    } else {
+      const width = window.innerWidth;
+      switch (true) {
+        case width <= config.smallSize:
+          if (col.templateFnSm) {
+            result = col.templateFnSm(config, record);
+          } else {
+            result = defaultCell(config, record, key);
+          }
+          break;
+        case width <= config.mediumSize:
+          if (col.templateFnMd) {
+            result = col.templateFnMd(config, record);
+          } else {
+            result = defaultCell(config, record, key);
+          }
+          break;
+        default: 
+          if (col.templateFn) {
+            result = col.templateFn(config, record);
+          } else {
+            result = defaultCell(config, record, key);
+          }
+          break;
+      }
+    }
+  }
+  return result;
+}
+
+const editor = (config: TableConfig, col: Column, record: any, key: number | string): string => {
+  return `
+    <input
+      type="text"
+      class="cell data editor ${ config.showBorders ? 'bordered': ''}"
+      data-field="${ col.dataField }"
+      data-id="${ record.id }"
+      value="${ record[key] }"/>
+  `
+}
+
+const defaultCell = (config: TableConfig, record: any, key: number | string): string => {
+  return `<span class="cell data ${ config.showBorders ? 'bordered': ''}">${ record[key] }</span>`;
 }
 
 export {

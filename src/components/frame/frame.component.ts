@@ -7,11 +7,12 @@ class FrameComponent extends Component<{}, State> {
 
   protected afterInit(props: {}, state: State): void {
     this.setTemplate(generateTemplate(state));
-    this.setStyle(generateStyle());
+    this.setStyle(generateStyle(state));
   }
 
   protected afterStateChange(props: {}, state: State): void {
     this.setTemplate(generateTemplate(state));
+    this.setStyle(generateStyle(state));
   }
 
   protected afterRender(): void {

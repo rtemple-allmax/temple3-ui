@@ -22,6 +22,7 @@ interface Theme {
   '--breakpoint-sm': string;
   '--table-header-bg-color': string;
   '--table-header-fg-color': string;
+  '--font-family': string;
 }
 
 const themeBase: Theme = {
@@ -46,7 +47,8 @@ const themeBase: Theme = {
   '--breakpoint-md': '1000px',
   '--breakpoint-sm': '600px',
   '--table-header-bg-color': 'black',
-  '--table-header-fg-color': 'white'
+  '--table-header-fg-color': 'white',
+  '--font-family': `'Roboto', sans-serif`
 };
 
 interface ThemeArgs {
@@ -73,6 +75,7 @@ interface ThemeArgs {
   breakpointSm?: string;
   tableHeaderBgColor?: string;
   tableHeaderFgColor?: string;
+  fontFamily?: string;
 }
 
 export { Theme, ThemeArgs, themeBase };

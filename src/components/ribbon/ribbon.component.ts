@@ -7,11 +7,12 @@ class RibbonComponent extends Component<{}, State> {
     super(null, defaultState);
   }
   protected afterInit(props: {}, state: State): void {
-    this.setStyle(generateStyle());
+    this.setStyle(generateStyle(state.config));
   }
 
   protected afterStateChange (props: {}, state: State): void {
     this.setTemplate(generateTemplate(state));
+    this.setStyle(generateStyle(state.config));
   }
 
   protected afterRender(): void {
