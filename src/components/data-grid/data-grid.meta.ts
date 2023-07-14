@@ -1,4 +1,4 @@
-import { Column, TableConfig } from "../../core/types/table.types";
+import { Column, SortingState, TableConfig } from "../../core/types/table.types";
 import { Nullable } from "../../core/utils/nullable";
 
 interface Props {
@@ -63,6 +63,28 @@ const generateStyles = (state: Nullable<State>): string => {
       top: 0;
       z-index: 1;
       background-color: white;
+      height: 40px;
+    }
+
+    .cell.header {
+      display: flex;
+      align-items: center;
+    }
+
+    .button-wrapper {
+      height: 28px; 
+    }
+
+    .header .sort-btn {
+      background: transparent;
+      border: none;
+      outline: 0;
+      padding: .33rem .5rem;
+      transform: rotate(0);
+    }
+
+    .header .sort-btn.inverted {
+      transform: rotate(180deg);
     }
 
     ${ state.config.alternation ? '.row:nth-child(even), .row:nth-child(even) input  { background-color: var(--muted-bg-color); }' : '' }
@@ -195,7 +217,7 @@ const headerRow = (config: TableConfig): string => {
 }
 
 const header = (col: Column): string => {
-  return `<span class="cell header">${ col.label() }</span>`
+  return `<span class="cell header">${ col.label() } <div class="button-wrapper">${ sortBtn(col) }</div></span>`
 }
 
 const dataRows = (config: TableConfig): string => {
@@ -267,6 +289,13 @@ const editor = (config: TableConfig, col: Column, record: any, key: number | str
 
 const defaultCell = (config: TableConfig, record: any, key: number | string): string => {
   return `<span class="cell data ${ config.showBorders ? 'bordered': ''}">${ record[key] }</span>`;
+}
+
+const sortBtn = (col: Column): string => {
+  if (col.sortIndex > -1) {
+    return `<button class="sort-btn ${ col.sortingState === SortingState.Ascending ? 'inverted' : ''}" data-field="${ col.dataField }"><nxt-icon icon="fa-solid fa-caret-down" color="var(--fg-color)"></nxt-icon></button>`;
+  }
+  return ``;
 }
 
 export {
