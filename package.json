@@ -1,6 +1,6 @@
 {
   "name": "@mpulsesoftware/web3-components",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A collection of Web Components built in Typescript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
