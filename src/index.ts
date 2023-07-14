@@ -3,6 +3,7 @@ export * from './components/flex/flex.component.js';
 export * from './components/for/for.component.js';
 export * from './components/frame/frame.component.js';
 export * from './components/grid/grid.component.js';
+export * from './components/icon/icon.component.js';
 export * from './components/if/if.component.js';
 export * from './components/ribbon/ribbon.component.js';
 export * from './components/scroll/scroll.component.js';

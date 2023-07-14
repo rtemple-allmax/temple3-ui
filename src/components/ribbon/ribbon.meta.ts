@@ -1,4 +1,4 @@
-import { RibbonConfig, RibbonSection, RibbonTab } from "../../core/types/ribbon.types.js";
+import { RibbonConfig, RibbonSection, RibbonSectionTypes, RibbonTab } from "../../core/types/ribbon.types.js";
 
 interface State {
   config: RibbonConfig;
@@ -65,7 +65,7 @@ const generateControls = (section: RibbonSection): string => {
   for (const control of section.controls) {
     template += `
       <button class="btn control ${ section.type }">
-        <span class="icon">${ control.icon }</span>
+        <nxt-icon icon="${ control.icon }" size="${ section.type === RibbonSectionTypes.Row || section.type === RibbonSectionTypes.Single ? '2.5rem': '1rem' }"></nxt-icon>
         <span>${ control.label }</span>
       </button>
     `;
