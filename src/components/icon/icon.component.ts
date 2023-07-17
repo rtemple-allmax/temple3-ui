@@ -10,7 +10,7 @@ class IconComponent extends Component<Props, State> {
   afterInit(props: Nullable<Props>, state: Nullable<State>): void {
     this.setTemplate(generateTemplate(props, state));
     this.setStyle(generateStyle(props, state));
-
+  
     const id = setInterval(() => {
       const fontAwesomeScript = document.querySelector('script[src*="fontawesome"]');
       const fontAwesomeFont = document.querySelector('#fa-v5-font-face');
