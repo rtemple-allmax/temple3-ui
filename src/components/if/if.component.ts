@@ -12,6 +12,10 @@ class IfComponent extends Component<{}, State> {
       }
     });
   }
+
+  public visible(state: boolean): void {
+    this.setState('render', state);
+  }
 }
 
 customElements.define('nxt-if', IfComponent);

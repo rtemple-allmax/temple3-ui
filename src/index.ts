@@ -1,3 +1,4 @@
+export * from './components/data-chart/data-chart.component.js';
 export * from './components/data-grid/data-grid.component.js'
 export * from './components/flex/flex.component.js';
 export * from './components/for/for.component.js';

@@ -70,8 +70,8 @@ class DataGridComponent extends Component<Props, State> {
       }
 
       const filterInput = this.root.getElementById('filter-input');
-      console.log('filter', filterInput)
       if (filterInput) {
+        console.log('filter', filterInput);
         filterInput.addEventListener('input', (e: Event) => this.filterInputChanged(e));
       }
     }
