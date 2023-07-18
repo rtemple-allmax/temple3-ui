@@ -6,12 +6,14 @@ import { ForConfig } from "../../core/types/for.types.js";
 class ForComponent extends Component<{}, State> {
   constructor() {
     super(null, defaultState);
+    this.state.value$.subscribe((state: Nullable<State>) => {
+      if (state) {
+        this.setTemplate(generateTemplate(state));
+        this.render();
+      }
+    });
   }
-
-  protected afterStateChange(props: Nullable<{}>, state: State): void {
-    this.setTemplate(generateTemplate(state));
-  }
-
+  
   public configure(config: ForConfig): void {
     this.setState('config', config);
   }

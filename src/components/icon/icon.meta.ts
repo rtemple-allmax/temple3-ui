@@ -14,12 +14,12 @@ interface State {
 const defaultProps: Props = { icon: '' };
 const defaultState: State = { initial: true };
 
-const generateTemplate = (props: Nullable<Props>, state: Nullable<State>): string => {
+const generateTemplate = (props: Nullable<Props>): string => {
   if (props) { return `<i class="icon ${ props.icon }"></i>`; }
   return '';
 };
 
-const generateStyle = (props: Nullable<Props>, state: Nullable<State>): string => {
+const generateStyle = (props: Nullable<Props>): string => {
   if (props) {
     return `
       .icon {

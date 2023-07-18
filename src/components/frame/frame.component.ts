@@ -1,20 +1,20 @@
+import { Nullable } from "../../core/utils/nullable.js";
 import { Component } from "../../core/bases/component.base.js";
 import { State, defaultState, generateStyle, generateTemplate } from './frame.meta.js';
 
 
 class FrameComponent extends Component<{}, State> {
-  constructor() { super(null, defaultState); }
-
-  protected afterInit(props: {}, state: State): void {
-    this.setTemplate(generateTemplate(state));
-    this.setStyle(generateStyle(state));
+  constructor() { 
+    super(null, defaultState);
+    this.state.value$.subscribe((state: Nullable<State>) => {
+      if (state) {
+        this.setTemplate(generateTemplate(state));
+        this.setStyle(generateStyle(state));
+        this.render();
+      }
+    });
   }
-
-  protected afterStateChange(props: {}, state: State): void {
-    this.setTemplate(generateTemplate(state));
-    this.setStyle(generateStyle(state));
-  }
-
+  
   protected afterRender(): void {
     const buttons = this.root?.querySelectorAll('.bottom-menu-control');
     if (buttons) {
@@ -29,7 +29,7 @@ class FrameComponent extends Component<{}, State> {
   }
   
   private openDrawer(): void {
-    this.setState('drawerOpen', true)
+    this.setState('drawerOpen', true);
   }
 
   private closeDrawer(): void {

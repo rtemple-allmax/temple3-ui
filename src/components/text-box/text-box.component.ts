@@ -3,6 +3,7 @@ import { Component } from "../../core/bases/component.base.js";
 import { Props, State, defaultProps, defaultState, generateStyle, generateTemplate } from './text-box.meta.js'
 import { ObservableBinding } from "../../core/types/observable-binding.type.js";
 import { randomNumberInRange } from "../../core/utils/random-number-in-range.js";
+import { combineLatest } from "rxjs";
 
 class TextBoxComponent extends Component<Props, State> {
   private el: Nullable<HTMLInputElement>;
@@ -12,12 +13,15 @@ class TextBoxComponent extends Component<Props, State> {
 
   constructor() {
     super(defaultProps, defaultState);
-  }
-  
-  protected afterInit(props: Props, state: Nullable<State>): void {
-    this.setStyle(generateStyle(props, state));
-    this.setTemplate(generateTemplate(props, state));
 
+    this.props.value$.subscribe((props: Nullable<Props>) => {
+      if (props) {
+        this.setStyle(generateStyle());
+        this.setTemplate(generateTemplate(props));
+        this.render();
+      }
+    });
+    
     this.binding.value$.subscribe(x => {
       if (this.el) {
         if (x && this.binding.previousValue !== x) {
@@ -30,8 +34,8 @@ class TextBoxComponent extends Component<Props, State> {
       }
     });
   }
-
-  protected afterRender(props: Nullable<Props>, state: Nullable<State>): void {
+  
+  protected afterRender(): void {
     const input = this.root?.querySelector('input');
     if (input) {
       this.el = input;
@@ -55,11 +59,6 @@ class TextBoxComponent extends Component<Props, State> {
     if (btn2) {
       btn2.addEventListener('click', () => this.setState('bg', `rgb(${randomNumberInRange(0, 255)}, ${randomNumberInRange(0, 255)}, ${randomNumberInRange(0, 255)})`));
     }
-  }
-
-  protected afterStateChange(props: Nullable<Props>, state: State): void {
-    this.setStyle(generateStyle(props, state));
-    this.setTemplate(generateTemplate(props, state));
   }
 }
 

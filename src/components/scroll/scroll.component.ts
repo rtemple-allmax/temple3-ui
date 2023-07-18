@@ -11,13 +11,15 @@ class ScrollComponent extends Component<Props, {}> {
   
   constructor() {
     super(defaultProps, null);
+    this.props.value$.subscribe((props: Nullable<Props>) => {
+      if (props) {
+        this.setTemplate(generateTemplate());
+        this.setStyle(generateStyle(props));
+        this.render();
+      }
+    });
   }
-
-  afterInit(props: Props, state: {}): void {
-    this.setTemplate(generateTemplate());
-    this.setStyle(generateStyle(props));
-  }
-
+  
   afterRender() {
     this.scroller = this.root?.querySelector('.scroll-container');
     this.scroller?.addEventListener('scroll', () => this.scrollHandler());

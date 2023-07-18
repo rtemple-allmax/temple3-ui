@@ -1,16 +1,20 @@
 import { Nullable } from "../../core/utils/nullable.js";
 import { Component } from "../../core/bases/component.base.js";
 import { defaultState, defaultProps, generateStyle, generateTemplate, Props, State} from './icon.meta.js';
+import { combineLatest } from "rxjs";
 
 class IconComponent extends Component<Props, State> {
   constructor() {
     super(defaultProps, defaultState);
-  }
 
-  afterInit(props: Nullable<Props>, state: Nullable<State>): void {
-    this.setTemplate(generateTemplate(props, state));
-    this.setStyle(generateStyle(props, state));
-  
+    this.props.value$.subscribe((props: Nullable<Props>) => {
+      if (props) {
+        this.setTemplate(generateTemplate(props));
+        this.setStyle(generateStyle(props));
+        this.render();
+      }
+    });
+    
     const id = setInterval(() => {
       const fontAwesomeScript = document.querySelector('script[src*="fontawesome"]');
       const fontAwesomeFont = document.querySelector('#fa-v5-font-face');

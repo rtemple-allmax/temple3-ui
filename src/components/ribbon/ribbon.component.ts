@@ -1,20 +1,20 @@
 import { RibbonConfig } from "../../core/types/ribbon.types.js";
 import { Component } from "../../core/bases/component.base.js";
 import { defaultState, generateStyle, generateTemplate, State } from './ribbon.meta.js';
+import { Nullable } from "../../core/utils/nullable.js";
 
 class RibbonComponent extends Component<{}, State> {
   constructor() {
     super(null, defaultState);
+    this.state.value$.subscribe((state: Nullable<State>) => {
+      if (state) {
+        this.setTemplate(generateTemplate(state));
+        this.setStyle(generateStyle(state.config));
+        this.render();
+      }
+    });
   }
-  protected afterInit(props: {}, state: State): void {
-    this.setStyle(generateStyle(state.config));
-  }
-
-  protected afterStateChange (props: {}, state: State): void {
-    this.setTemplate(generateTemplate(state));
-    this.setStyle(generateStyle(state.config));
-  }
-
+  
   protected afterRender(): void {
     const btns = this.root?.querySelectorAll('.tab-btn');
     if (btns) {
@@ -29,7 +29,7 @@ class RibbonComponent extends Component<{}, State> {
   }
 
   private switchTabs(index: number) {
-    const altered = { ...this.currentState?.config };
+    const altered = { ...this.state?.value?.config };
     if (altered?.tabs) {
       for(const [i, tab] of altered.tabs.entries()) {
         tab.active = i === index;

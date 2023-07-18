@@ -5,10 +5,12 @@ import { defaultState, generateTemplate, State } from './if.meta.js';
 class IfComponent extends Component<{}, State> {
   constructor() {
     super(null, defaultState)
-  }
-
-  protected afterStateChange(props: Nullable<{}>, state: State): void {
-    this.setTemplate(generateTemplate(state));
+    this.state.value$.subscribe((state: Nullable<State>) => {
+      if (state) {
+        this.setTemplate(generateTemplate(state));
+        this.render();
+      }
+    });
   }
 }
 

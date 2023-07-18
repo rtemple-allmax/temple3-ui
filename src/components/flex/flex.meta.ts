@@ -15,12 +15,9 @@ const defaultProps: Props = {
 const generateTemplate = (): string => { return `<slot></slot>` };
 const generateStyle = (props: Props): string => {
   return `
-    :host {
-      height: ${ props.height};
-    }
     slot {
       display: flex;
-      height: 100%;
+      height: ${ props.height || 'auto' };
       padding: ${ props.padding };
       justify-content: ${ props.justifyContent };
       align-items: ${ props.alignItems };

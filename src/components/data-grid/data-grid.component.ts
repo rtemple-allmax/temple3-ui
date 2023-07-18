@@ -8,21 +8,25 @@ import { sortArrayByStringValueImmutable } from '../../core/utils/array-utils.js
 class DataGridComponent extends Component<Props, State> {
   constructor() {
     super(defaultProps, defaultState);
-  }
 
-  protected afterInit(props: Props, state: Nullable<State>): void {
-    this.setStyle(generateStyles(state));
-    this.setTemplate(generateTemplate(state));
+    this.state.value$.subscribe((state: Nullable<State>) => {
+      if (state) {
+        this.setStyle(generateStyles(state));
+        this.setTemplate(generateTemplate(state));
+        this.render();
+      }
+    });
+
     window.addEventListener('resize', () => {
-      if (this.currentState) {
-        this.setStyle(generateStyles({ ...this.currentState }));
-        this.setTemplate(generateTemplate({ ...this.currentState }));
-        this.render_FORCE();
+      if (this.state.value) {
+        this.setStyle(generateStyles(this.state.value));
+        this.setTemplate(generateTemplate(this.state.value));
+        this.render();
       }
     });
   }
 
-  protected afterRender(props: Nullable<Props>, state: Nullable<State>): void {
+  protected afterRender(): void {
     if (this.root) {
       const editors = this.root.querySelectorAll('.editor');
       if (editors) {
@@ -33,15 +37,15 @@ class DataGridComponent extends Component<Props, State> {
             if (idAttr) {
               const id = parseInt(idAttr, 10);
               const field = (editor as HTMLElement).dataset.field;
-              if (id > -1 && field && state?.config) {
-                const altered = [ ...state.config.data ];
+              if (id > -1 && field && this.state?.value?.config) {
+                const altered = [ ...this.state.value.config.data ];
                 if (altered) {
                   const idx = altered.findIndex(x => x.id === id );
                   if (idx > -1) {
                     const record = { ...altered[idx] };
                     record[field] = value;
                     altered[idx] = record;
-                    this.setState('config', { ...state.config, data: altered })
+                    this.setState('config', { ...this.state.value.config, data: altered })
                   }
                 }
               }
@@ -51,10 +55,10 @@ class DataGridComponent extends Component<Props, State> {
         }
       }
       const sortBtns = this.root.querySelectorAll('.sort-btn');
-      if (sortBtns && this.currentState?.config?.columns) {
+      if (sortBtns && this.state?.value?.config?.columns) {
         for (const btn of Array.from(sortBtns)) {
           const field = (btn as HTMLElement).dataset.field;
-          const foundColumn = this.currentState.config.columns.find(x => x.dataField === field);
+          const foundColumn = this.state.value.config.columns.find(x => x.dataField === field);
           if (foundColumn && foundColumn.sortIndex > -1) {
             btn.addEventListener('click', () => this.sort(foundColumn.dataField))
           }
@@ -72,20 +76,14 @@ class DataGridComponent extends Component<Props, State> {
       }
     }
   }
-
-  protected afterStateChange(props: Nullable<Props>, state: State): void {
-    console.log('after state change', state);
-    this.setStyle(generateStyles(state));
-    this.setTemplate(generateTemplate(state));
-  }
-
+  
   public configure(config: TableConfig): void {
     this.setState('config', config);
   }
 
   public sort(name: string): void {
-    if (this.currentState?.config) {
-      const altered = { ...this.currentState.config };
+    if (this.state?.value?.config) {
+      const altered = { ...this.state.value.config };
       const col = altered.columns.find(x => x.dataField === name);
       if (altered.data && col) {
         let desc = false;
@@ -111,8 +109,8 @@ class DataGridComponent extends Component<Props, State> {
   }
 
   public showFilterRow(): void {
-    if (this.currentState) {
-      this.setState('showFilter', !this.currentState.config.showFilter);
+    if (this.state?.value?.config) {
+      this.setState('showFilter', !this.state.value.config.showFilter);
     }
   }
 
