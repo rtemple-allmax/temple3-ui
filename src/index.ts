@@ -24,4 +24,5 @@ export * from './core/utils/array-utils.js';
 export * from './core/utils/hyphens-to-camel-case.js';
 export * from './core/utils/is-null-or-empty.js';
 export * from './core/utils/nullable.js';
+export * from './core/utils/random-number-in-range.js';
 export * from './core/utils/sort-array-alphabetically-immutable.js';
