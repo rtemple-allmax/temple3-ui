@@ -10,7 +10,6 @@ class TextBoxComponent extends Component<Props, State> {
 
   private binding = new ObservableBinding<string>();
 
-
   constructor() {
     super(defaultProps, defaultState);
 

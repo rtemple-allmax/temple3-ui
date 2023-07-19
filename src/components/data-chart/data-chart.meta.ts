@@ -34,7 +34,9 @@ const defaultState: State = {
 const generateTemplate = (props: Nullable<Props>, state: Nullable<State>): string => {
   return `
     <div class="wrapper">
-      <canvas id="${ Constants.TARGET_ID }"></canvas>
+      <div class="inner">
+        <canvas id="${ Constants.TARGET_ID }"></canvas>
+      </div>
     </div>
   `;
 }
@@ -43,6 +45,8 @@ const generateStyles = (props: Nullable<Props>, state: Nullable<State>): string 
   return `
     .wrapper {
       background-color: white;
+    }
+    .inner {
       max-height: 60vh;
     }
   `;

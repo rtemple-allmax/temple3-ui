@@ -24,6 +24,7 @@ class Component<T1 extends {}, T2 extends {}> extends HTMLElement {
   }
 
   private connectedCallback() {
+    this.beforeInit();
     const attributes: any[] = [];
     const attrs = [ ...Array.from(this.attributes) ];
     attrs.forEach(x => {
@@ -43,12 +44,15 @@ class Component<T1 extends {}, T2 extends {}> extends HTMLElement {
       ...(this.props.value || {}),
       ...Object.fromEntries(attributes.map(prop => [ hyphensToCamelCase(prop.name), prop.value ]))
     } as T1;
+
+
   }
 
   private disconnectedCallback() {
     this.afterDestroy();
   }
 
+  protected beforeInit() { }
   protected afterRender() { }
   protected afterDestroy() { }
   
@@ -75,6 +79,10 @@ class Component<T1 extends {}, T2 extends {}> extends HTMLElement {
 
   public setState(name: string, val: any) {
     this.state.value = { ...(this.state.value || {}), [ name ]: val } as T2;
+  }
+
+  public replaceState(state: any): void {
+    this.state.value = { ...(this.state.value || {}), ...state } as T2;
   }
 }
 

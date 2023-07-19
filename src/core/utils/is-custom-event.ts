@@ -1,0 +1,1 @@
+export const isCustomEvent = (event: Event): event is CustomEvent => 'detail' in event;
