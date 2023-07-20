@@ -59,7 +59,7 @@ class SelectBoxComponent extends Component<Props, State> {
   }
 
   public hydrate(items: any[]): void {
-    this.setState('items', items);
+    this.setState({ items });
   }
 }
 

@@ -74,7 +74,7 @@ class DataChartComponent extends Component<Props, State> {
   }
 
   public hydrate(data: any[]): void {
-    this.setState('data', data);
+    this.setState({ data });
   }
 
   public setType(type: 'bar' | 'line' | 'bubble' | 'doughnut' | 'pie' | 'polarArea' | 'radar' | 'scatter'): void {

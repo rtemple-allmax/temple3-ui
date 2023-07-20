@@ -25,7 +25,7 @@ class RibbonComponent extends Component<{}, State> {
   }
 
   public configure(config: RibbonConfig) {
-    this.setState('config', config);
+    this.setState({ config });
   }
 
   private switchTabs(index: number) {
@@ -34,7 +34,7 @@ class RibbonComponent extends Component<{}, State> {
       for(const [i, tab] of altered.tabs.entries()) {
         tab.active = i === index;
       }
-      this.setState('config', altered);
+      this.setState({ config: altered });
     }
   }
 }

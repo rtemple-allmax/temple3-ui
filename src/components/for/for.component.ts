@@ -15,7 +15,7 @@ class ForComponent extends Component<{}, State> {
   }
   
   public configure(config: ForConfig): void {
-    this.setState('config', config);
+    this.setState({ config });
   }
 }
 

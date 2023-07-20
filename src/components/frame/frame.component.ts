@@ -29,11 +29,11 @@ class FrameComponent extends Component<{}, State> {
   }
   
   private openDrawer(): void {
-    this.setState('drawerOpen', true);
+    this.setState({drawerOpen: true });
   }
 
   private closeDrawer(): void {
-    this.setState('drawerOpen', false)
+    this.setState({ drawerOpen: false })
   }
 }
 

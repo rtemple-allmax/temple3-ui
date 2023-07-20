@@ -56,7 +56,7 @@ class TextBoxComponent extends Component<Props, State> {
 
     const btn2 = this.root?.querySelector('.test-btn2');
     if (btn2) {
-      btn2.addEventListener('click', () => this.setState('bg', `rgb(${randomNumberInRange(0, 255)}, ${randomNumberInRange(0, 255)}, ${randomNumberInRange(0, 255)})`));
+      btn2.addEventListener('click', () => this.setState({ bg: `rgb(${randomNumberInRange(0, 255)}, ${randomNumberInRange(0, 255)}, ${randomNumberInRange(0, 255)})` }));
     }
   }
 }

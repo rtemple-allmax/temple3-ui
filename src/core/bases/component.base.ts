@@ -10,6 +10,9 @@ class Component<T1 extends {}, T2 extends {}> extends HTMLElement {
 
   protected props: ObservableProperty<T1> = new ObservableProperty<T1>(null);
   protected state: ObservableProperty<T2> = new ObservableProperty<T2>(null);
+
+  protected previousProps: Nullable<T1> = null;
+  protected previousState: Nullable<T2> = null;
   
   protected get root(): Nullable<ShadowRoot> {
     return this.element;
@@ -76,12 +79,8 @@ class Component<T1 extends {}, T2 extends {}> extends HTMLElement {
   public setStyle(styles: string) {
     this.styles = styles;
   }
-
-  public setState(name: string, val: any) {
-    this.state.value = { ...(this.state.value || {}), [ name ]: val } as T2;
-  }
-
-  public replaceState(state: any): void {
+  
+  public setState(state: any): void {
     this.state.value = { ...(this.state.value || {}), ...state } as T2;
   }
 }

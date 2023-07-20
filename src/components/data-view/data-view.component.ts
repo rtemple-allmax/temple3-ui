@@ -15,23 +15,23 @@ class DataViewComponent extends Component<Props, State> {
         this.setTemplate(generateTemplate(state))
         this.setStyle(generateStyle(state));
         this.render();
-        (this.root?.getElementById('table') as DataGridComponent)?.setState('config', state.config);
+        (this.root?.getElementById('table') as DataGridComponent)?.setState({config: state.config });
         (this.root?.getElementById('chart') as DataChartComponent)?.hydrate(state.config.data);
       }
     });
   }
 
   protected afterRender(): void {
-    this.root?.getElementById(Constants.VIEW_BTN_ID)?.addEventListener('click', () => this.setState('availableControls', Controls.CHART));
-    this.root?.getElementById(Constants.CLOSE_CONTROLS_BTN_ID)?.addEventListener('click', () => this.setState('availableControls', Controls.NONE));
-    this.root?.getElementById(Constants.TABLE_BTN_ID)?.addEventListener('click', () => this.replaceState({ view: Views.TABLE, availableControls: Controls.NONE }));
-    this.root?.getElementById(Constants.CHART_BAR_BTN_ID)?.addEventListener('click', () => this.replaceState({ view: Views.CHART, chartType: ChartTypes.BAR, availableControls: Controls.NONE }));
-    this.root?.getElementById(Constants.CHART_LINE_BTN_ID)?.addEventListener('click', () => this.replaceState({ view: Views.CHART, chartType: ChartTypes.LINE, availableControls: Controls.NONE }));
-    this.root?.getElementById(Constants.CHART_PIE_BTN_ID)?.addEventListener('click', () => this.replaceState({ view: Views.CHART, chartType: ChartTypes.PIE, availableControls: Controls.NONE }));
+    this.root?.getElementById(Constants.VIEW_BTN_ID)?.addEventListener('click', () => this.setState({availableControls: Controls.CHART }));
+    this.root?.getElementById(Constants.CLOSE_CONTROLS_BTN_ID)?.addEventListener('click', () => this.setState({availableControls: Controls.NONE }));
+    this.root?.getElementById(Constants.TABLE_BTN_ID)?.addEventListener('click', () => this.setState({ view: Views.TABLE, availableControls: Controls.NONE }));
+    this.root?.getElementById(Constants.CHART_BAR_BTN_ID)?.addEventListener('click', () => this.setState({ view: Views.CHART, chartType: ChartTypes.BAR, availableControls: Controls.NONE }));
+    this.root?.getElementById(Constants.CHART_LINE_BTN_ID)?.addEventListener('click', () => this.setState({ view: Views.CHART, chartType: ChartTypes.LINE, availableControls: Controls.NONE }));
+    this.root?.getElementById(Constants.CHART_PIE_BTN_ID)?.addEventListener('click', () => this.setState({ view: Views.CHART, chartType: ChartTypes.PIE, availableControls: Controls.NONE }));
   }
 
   public configure(config: TableConfig): void {
-    this.setState('config', config);
+    this.setState({ config });
   }
 }
 

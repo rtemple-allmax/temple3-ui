@@ -45,7 +45,7 @@ class DataGridComponent extends Component<Props, State> {
                     const record = { ...altered[idx] };
                     record[field] = value;
                     altered[idx] = record;
-                    this.setState('config', { ...this.state.value.config, data: altered })
+                    this.setState({ data: altered })
                   }
                 }
               }
@@ -78,7 +78,7 @@ class DataGridComponent extends Component<Props, State> {
   }
   
   public configure(config: TableConfig): void {
-    this.setState('config', config);
+    this.setState({ config });
   }
 
   public sort(name: string): void {
@@ -103,20 +103,20 @@ class DataGridComponent extends Component<Props, State> {
         }
         const sorted = sortArrayByStringValueImmutable(altered.data, name, desc);
         altered.data = sorted;
-        this.setState('config', altered);
+        this.setState({config: altered });
       }
     }
   }
 
   public showFilterRow(): void {
     if (this.state?.value?.config) {
-      this.setState('showFilter', !this.state.value.config.showFilter);
+      this.setState({ showFilter: !this.state.value.config.showFilter });
     }
   }
 
   public filterInputChanged(e: Event): void {
     const val = (e.target as HTMLInputElement).value;
-    this.setState('filterValue', val);
+    this.setState({filterValue: val });
   }
 }
 

@@ -14,7 +14,7 @@ class IfComponent extends Component<{}, State> {
   }
 
   public visible(state: boolean): void {
-    this.setState('render', state);
+    this.setState({ render:  state });
   }
 }
 
